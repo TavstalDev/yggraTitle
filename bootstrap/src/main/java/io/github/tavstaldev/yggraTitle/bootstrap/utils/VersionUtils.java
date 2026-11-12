@@ -6,19 +6,23 @@ import org.jetbrains.annotations.ApiStatus;
 import java.lang.reflect.Method;
 
 /**
- * Utility class for handling server version-related operations.
+ * Utility methods for reading and comparing the running Minecraft server version.
  *
- * <p>The detected server version is cached after the first lookup, so repeated calls
- * to {@link #getServerVersion()} are cheap and consistent.</p>
+ * <p>The detected version is cached after the first lookup, so repeated calls to
+ * {@link #getServerVersion()} are cheap and consistent. Version strings are compared
+ * numerically, component by component (major, minor, patch).</p>
  */
 @ApiStatus.Internal
 public class VersionUtils {
     private static String _version = null;
 
     /**
-     * Retrieves the current server version as a string.
+     * Returns the running server version, detecting it on the first call and caching the result.
      *
-     * @return The server version string, e.g., "1.8.8-R0.1-SNAPSHOT".
+     * <p>On servers that provide {@code Bukkit#getMinecraftVersion()}, that method is used.
+     * Older servers fall back to parsing the package name of the server implementation.</p>
+     *
+     * @return the server version string, for example {@code "1.8.8"} or {@code "1.21.4"}
      */
     public static String getServerVersion() {
         if (_version != null) {
@@ -41,11 +45,11 @@ public class VersionUtils {
     }
 
     /**
-     * Checks if the server version is at least the specified major and minor version.
+     * Checks whether the server version is at least the specified major and minor version.
      *
-     * @param major The major version to compare against.
-     * @param minor The minor version to compare against.
-     * @return True if the server version is at least the specified version, false otherwise.
+     * @param major the major version to compare against
+     * @param minor the minor version to compare against
+     * @return {@code true} if the server version is equal to or newer than the given version
      */
     public static boolean isAtLeast(int major, int minor) {
         String[] parts = getServerVersion().split("\\.");
@@ -55,14 +59,14 @@ public class VersionUtils {
     }
 
     /**
-     * Checks if the server version is at least the specified major, minor, and patch version.
-     * This method parses the server version string and compares it against the provided version numbers.
-     * If the patch version is not specified in the server version, it defaults to 0.
+     * Checks whether the server version is at least the specified major, minor, and patch version.
      *
-     * @param major The major version to compare against.
-     * @param minor The minor version to compare against.
-     * @param patch The patch version to compare against.
-     * @return True if the server version is at least the specified version, false otherwise.
+     * <p>If the server version does not contain a patch component, it is treated as {@code 0}.</p>
+     *
+     * @param major the major version to compare against
+     * @param minor the minor version to compare against
+     * @param patch the patch version to compare against
+     * @return {@code true} if the server version is equal to or newer than the given version
      */
     public static boolean isAtLeast(int major, int minor, int patch) {
         String[] parts = getServerVersion().split("\\.");
@@ -74,6 +78,8 @@ public class VersionUtils {
         } else {
             pat = 0; // Default to 0 if patch version is not specified
         }
-        return maj > major || maj == major && min > minor || maj == major && min == minor && pat >= patch;
+        return (maj > major)
+                || (maj == major && min > minor)
+                || (maj == major && min == minor && pat >= patch);
     }
 }

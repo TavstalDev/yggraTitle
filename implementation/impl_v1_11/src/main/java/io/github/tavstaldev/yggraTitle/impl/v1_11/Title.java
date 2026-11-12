@@ -12,6 +12,16 @@ import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * An {@link ITitle} implementation for Minecraft 1.11 and newer servers.
+ *
+ * <p>Those versions expose the native {@link Player#sendTitle(String, String, int, int, int)}
+ * API, so no NMS access is required. Adventure components are converted to section-sign legacy
+ * text before they are passed to Bukkit.</p>
+ *
+ * <p>Durations are converted from milliseconds to ticks (50&nbsp;ms per tick) and rounded to the
+ * nearest tick.</p>
+ */
 public class Title implements ITitle {
     private static final net.kyori.adventure.title.Title.Times defaultTimes = net.kyori.adventure.title.Title.Times.times(
             Duration.ofMillis(500),   // Fade In: 0.5 seconds
@@ -32,7 +42,7 @@ public class Title implements ITitle {
      */
     @Override
     public void send(@NotNull Player player, @NotNull String title, @NotNull String subTitle, @NotNull Map<String, Object> arguments) {
-        send(player, title, subTitle, defaultTimes);
+        send(player, title, subTitle, arguments, defaultTimes);
     }
 
     /**
