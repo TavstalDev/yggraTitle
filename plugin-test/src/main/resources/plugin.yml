@@ -1,4 +1,4 @@
-main: io.github.tavstaldev.yggraTitle.test.TestPlugin
+main: com.github.TavstalDev.yggraTitle.test.TestPlugin
 version: '1.0.0'
 api-version: '1.8'
 
