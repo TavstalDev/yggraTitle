@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.2] - 2026-11-23
+
+### Added
+
+- Sources and Javadoc JARs are now generated for the `api` and `bootstrap` modules and published alongside the shaded library JAR in the Maven artifact, so JitPack consumers get source and documentation attachments. The Javadoc is generated from the `api` sources.
+
+### Changed
+
+- Updated the Gradle wrapper from 9.8.0 to 9.8.2.
+- Dependabot no longer proposes updates for the pinned Spigot/Paper API, Gradle, and Shadow dependencies.
+
 ## [0.1.1] - 2026-11-17
 
 ### Added
@@ -39,6 +50,7 @@ Initial release.
 - Java 8 runtime compatibility, with Adventure 4.26.1 as the runtime dependency.
 - Example `plugin-test` plugin demonstrating runtime dependency loading with Libby.
 
-[Unreleased]: https://github.com/TavstalDev/yggraTitle/compare/v0.1.1...HEAD
+[Unreleased]: https://github.com/TavstalDev/yggraTitle/compare/v0.1.2...HEAD
+[0.1.2]: https://github.com/TavstalDev/yggraTitle/compare/v0.1.1...v0.1.2
 [0.1.1]: https://github.com/TavstalDev/yggraTitle/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/TavstalDev/yggraTitle/releases/tag/v0.1.0
